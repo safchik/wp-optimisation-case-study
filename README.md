@@ -31,12 +31,16 @@ Improvements implemented:
 - Faster perceived load time
 - Improved readability and UX
 
+![Performance](assets/performance-tools.png)
+
 ## 🛠 Technologies Used
 
 - HTML5
 - CSS3
 - Performance-focused layout techniques
 - Mobile-first structure
+
+![Code](assets/case-study-code.png)
 
 ## 🔍 What This Demonstrates
 
