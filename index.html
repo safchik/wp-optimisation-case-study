@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WordPress Optimisation Case Study – Dmytro Savka</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>WordPress Performance & Debugging Case Study</h1>
+    <p class="lead">
+      This demo represents a real-world optimisation: cleaning legacy templates, fixing
+      queries, and improving load time on a WordPress site.
+    </p>
+
+    <section class="card">
+      <h2>Key Fixes Implemented</h2>
+      <ul>
+        <li>Replaced raw SQL loops with <code>WP_Query</code> using proper pagination.</li>
+        <li>Removed unused CSS/JS and used <code>wp_enqueue_script()</code> correctly.</li>
+        <li>Fixed broken custom post type template by aligning slug & query arguments.</li>
+        <li>Improved layout responsiveness and reduced layout shift on mobile.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Example Before → After Query</h2>
+      <pre><code>// BEFORE (inside template)
+$results = $wpdb->get_results("SELECT * FROM wp_posts WHERE post_type = 'project'");
+foreach ($results as $row) {
+    // render
+}</code></pre>
+
+      <pre><code>// AFTER (functions.php)
+$args = [
+  'post_type'      => 'project',
+  'posts_per_page' => 9,
+  'paged'          => get_query_var('paged') ?: 1,
+];
+
+$query = new WP_Query($args);
+
+if ($query->have_posts()) :
+  while ($query->have_posts()) : $query->the_post();
+    // template part goes here
+  endwhile;
+  the_posts_pagination();
+  wp_reset_postdata();
+endif;</code></pre>
+    </section>
+
+    <section class="card">
+      <h2>Tools Used</h2>
+      <ul>
+        <li>Chrome DevTools (network, performance, coverage)</li>
+        <li>Query Monitor plugin (slow query analysis)</li>
+        <li>Lighthouse (performance & accessibility checks)</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
